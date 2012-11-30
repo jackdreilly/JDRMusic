@@ -1,0 +1,63 @@
+<header> := "[" . <tempo> . "," . <clef> . "," . <key> . "," . <time sig> . "," . <dynamics> . "," . <instrument> . "]"
+<tempo> := <integer>
+<clef> := ("treble" | "bass") . <clef shift>
+<clef shift> := "_up" | "_down" | empty
+<key> := <note-letter> .  <accidental>  . " " .  <mode>
+<note-letter> := "A"|"B"|"C"|"D"|"E"|"F"|"G" | "R"
+<accidental> := "flat" | "sharp" | "nat" | empty
+<mode> := "ionian"| "dorian" | "phrygian" | "lydian" | "mixolydian" | "aeolian" | "locrian"
+<time sig> :=  <beats per measure>  . "/"  . <beat value>
+<beat value> := "1" | "2" | "4" | "8" | "16" | "32"
+<beats per measure> = <integer>
+<dynamics> := "ppp" | "pp" | "p" | "mp" | "mf" | "f" | "ff" | "fff"
+<instrument> : = "piano" | "organ" | "acoustic guitar" | "electric guitar" | "bass" | "
+Acoustic Grand Piano Percussive Organ Acoustic Guitar (steel) Electric Guitar (jazz) Electric Bass (pick) Pizzicato Strings String Ensemble 1 Brass Section Tenor Sax
+
+
+
+<note> := <note type> . <length>
+<note type> := <chord> | <single pitch>
+<single pitch> := <note-pitch> . <accidental>
+<note-pitch> := <note-letter> | <scale number>
+<scale number> := <1-7>
+<chord> := <custom chord> | <autochord>
+<custom chord> := "[" . <single pitch> . <additional pitch> "]"
+
+<autochord> := "c" . <scale number> . "_" . <chord type>
+<scale number> := <1-7> . <accidental>
+<chord type> := <major> | <minor> | <diminished> 
+<major> := empty | "maj" . <add chord spec> | <add chord spec>
+<minor> := "m" . <add chord spec>
+<diminished> := "dim" . <add chord spec>
+<add chord spec> := <chord number> | empty | <single pitch> . "/" . <add chord spec>
+
+
+<additional pitch> := "," . <single pitch> . <additional pitch> | empty
+
+<length> := <whole part> . <fractional part> . <repeat length>
+<whole part> := "1" | "2" | "3" | "4" | "8" | "16" | "32"
+<fractional part> := "." | ".." | empty
+<repeat length> := "x" . <integer> | empty
+
+
+
+
+<phrase line> := "phrase:" . <phrase name> . ":" . <phrase> . <eol>
+<phrase> := ( <property> | <note> | <phrase name>) . (" " . <phrase> | empty)
+<phrase name> := <string>
+
+
+<header line> := "header:" . <header name> . <header> . <eol>
+<header name> := <string>
+<property> := "{" . <type>  . "_" . <modifier> . "}"
+<type> := "octave" | "staccato" | "slur" | "tie" | "length" | "pitch" 
+<modifier> := "off" | "on" | "up" | "down" | "once" | <single pitch> | <length> 
+
+
+<staff line> := "staff:" . <staff> . <eol>
+<staff> := <header name> . ":" . <phrase name>
+
+
+
+
+<jdr> := (<staff line> | <phrase line> | <header line>) . <jrf> | empty

@@ -1,0 +1,30 @@
+header:h1:[100,treble_up,Bb,4/4,mf,piano]
+
+
+phrase:verse_p1: 3.8 3.8 3.8 3.8 3.8 3.8 2.8 1.8 {octave_down} 7.8 {octave_up} 2.4 2.4 ~.4 4.4 4.8 4.8 4.8 4.8 4.8 3.8 2.8 1.2 ~.2
+phrase:verse_p2: 5.8 5.8 5.8 5.8 5.8 5.8 4.8 3.8 4.8 5.4 6.4 6.8 5.8 4.8 3.8 3.8 4.8 3.8 2.8 4.8 3.8 2.8 1.2 ~.8
+phrase:mel_chorus: {length_8} 1 3 5 ~ 1 3 5 ~ 1 3 {length_off} 5.2 {octave_up} 1.2 {octave_down} 5.4 {length_8} 4 3 4 3 2 ~ 1 ~ ~ ~ {octave_up} 1 {octave_down} ~
+
+phrase:melody:verse_p1 verse_p2 mel_chorus mel_chorus
+
+phrase:ch1:{octave_up} ~.8 {staccato_on} {pitch_*1_}  4 8
+phrase:ch4:{octave_up} ~.8 {staccato_on} {pitch_*4_}  4 8
+phrase:ch5:{octave_up} ~.8 {staccato_on} {pitch_*5_7}  4 8
+phrase:ch6:{octave_up} ~.8 {staccato_on} {pitch_*6_m}  4 8
+phrase:ch3:{octave_up} ~.8 {staccato_on} {pitch_*3_m}  4 8
+
+phrase:rhythm-verse:ch1 ch1 ch5 ch5 ch5 ch5 ch1 ch1 ch1 ch1 ch4  ch4  ch1 ch5 ch1 ch1
+phrase:rhythm-chorus:ch1 ch1 ch3 ch6 ch1 ch5 ch1 ch1
+
+phrase:rhythm:rhythm-verse rhythm-chorus rhythm-chorus
+
+
+
+phrase:rest_4:{pitch_~} 1 1 1 1
+phrase:chorus_lahs:{length_8} {octave_up} [1_5] [1_5] [1_5] [1_5] [1_5] [1_5] [1_5] [1_5] [7_5] [7_5] [7_5] [7_5] [1_6] [1_6] [1_6] [1_6]  [1_5] [1_5] [1_5] [1_5] [7_5] [7_5] [7_5] [7_5] [1_5] [1_5] [1_5] [1_5] [1_5] [1_5] [1_5] [1_5]
+
+phrase:lahs:rest_4 rest_4 rest_4 chorus_lahs
+
+staff:h1:melody
+staff:h1:rhythm
+staff:h1:lahs

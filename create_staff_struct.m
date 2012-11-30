@@ -1,0 +1,145 @@
+function create_staff_struct(STAFFS)
+global PHRASE_STRUCT HEADER_STRUCT STAFF_STRUCT;
+STAFF_STRUCT = struct([]);
+nstaffs = length(STAFFS);
+for i = 1:nstaffs
+    cur_staff = STAFFS{i};
+    get_header();
+    get_phrase();
+    convert_phrase_notes();
+end
+    function get_header()
+        header_name = parse_header();
+        h_struct = find_hstruct();
+        STAFF_STRUCT(i).Header = h_struct;
+        
+        
+        
+        function hn = parse_header()
+            colon = findfirst(cur_staff,':');
+            hn = cur_staff(1:colon - 1);
+            cur_staff = strip_to(cur_staff,colon +1);
+        end
+        
+        function hs = find_hstruct()
+            for ii = 1:length(HEADER_STRUCT)
+                cur_hn = HEADER_STRUCT(ii).HeaderName;
+                if strcmp(header_name,cur_hn)
+                    hs =  HEADER_STRUCT(ii);
+                    return;
+                end
+            end
+        end
+    end
+    function get_phrase()
+        cur_phrasename = cur_staff;
+        p_struct = find_pstruct();
+        STAFF_STRUCT(i).Phrase = p_struct;
+        
+        function p_struct = find_pstruct()
+            for ii = 1:length(PHRASE_STRUCT)
+                cur_pn = PHRASE_STRUCT(ii).PhraseName;
+                if strcmp(cur_phrasename,cur_pn)
+                    p_struct =  PHRASE_STRUCT(ii);
+                    return;
+                end
+            end
+        end
+    end
+
+
+    function convert_phrase_notes()
+        my_staff = STAFF_STRUCT(i);
+        my_phrase = my_staff.Phrase;
+        my_header = my_staff.Header;
+        my_key = my_header.Key;
+        my_mode = my_header.Key.Mode;
+        my_notearray  = my_phrase.NoteArray;
+        nNotes = length(my_notearray);
+        my_key_shift = get_key_shift();
+        for ii = 1:nNotes
+            my_note = my_notearray(ii);
+            my_string = my_note.String;
+            my_relative = create_note(my_string,my_mode);
+            my_relative_pitches = my_relative.Pitches;
+            if ~isRest(my_relative_pitches)
+                my_octave_shift_12 = get_octave_shift();
+                my_absolute = my_relative_pitches + my_octave_shift_12 + my_key_shift;
+                my_npitches = length(my_absolute);
+                my_pitch_array = [];
+                for iii = 1:my_npitches
+                    my_cur_pitch = my_absolute(iii);
+                    convert_2_complete();
+                end
+                STAFF_STRUCT(i).Phrase.NoteArray(ii).Pitches = my_pitch_array;
+            else
+                STAFF_STRUCT(i).Phrase.NoteArray(ii).Pitches = my_relative_pitches;
+            end
+            STAFF_STRUCT(i).Phrase.NoteArray(ii).Length = my_relative.Length;
+        end
+
+        
+        function convert_2_complete()
+            octave_count = get_octave_count();
+            final_pitch = go_from_12_to_pitch(my_cur_pitch,my_key);
+            final_pitch.OctaveShift = octave_count;
+            my_pitch_array = [my_pitch_array final_pitch];
+
+            function octave_count = get_octave_count()
+                octave_count = 0;
+                if my_cur_pitch > 0 && my_cur_pitch < 13
+                elseif my_cur_pitch >= 13
+                    while my_cur_pitch > 12
+                        my_cur_pitch = my_cur_pitch - 12;
+                        octave_count = octave_count + 1;
+                    end
+                else
+                    while my_cur_pitch < 1
+                        my_cur_pitch = my_cur_pitch + 12;
+                        octave_count = octave_count - 1;
+                    end
+                end
+            end
+        end
+                    
+    function mos = get_octave_shift()
+        mos = my_note.Octave*12;
+    end
+
+    function mks = get_key_shift()
+        letter = my_header.Key.Letter;
+        acc = my_header.Key.Accidental;
+        switch letter
+            case 'A'
+                l_sh = 0;
+            case 'B'
+                l_sh = 2;
+            case 'C'
+                l_sh = 3;
+            case 'D'
+                l_sh = 5;
+            case 'E'
+                l_sh = 7;
+            case 'F'
+                l_sh = 8;
+            case 'G'
+                l_sh = 10;
+        end
+        
+        switch acc
+            case 'Sharp'
+                a_sh = 1;
+            case 'Flat'
+                a_sh = -1;
+        end
+        
+        mks = l_sh + a_sh;
+    end
+
+
+end
+
+
+
+
+end

@@ -1,0 +1,5 @@
+phrase:test1: {length_2..} 3 4 2 4
+header:header1:[120,bass,Db Dorian,4/4,mf,acoustic guitar]
+phrase:test2: test1 test1
+header:header2:[130,treble_up,D,2/4,ff,piano]
+staff:header1:test2

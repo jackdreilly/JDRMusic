@@ -1,0 +1,33 @@
+function ahk_startup()
+global WRITE_ID;
+
+
+fprintf(WRITE_ID,'Run, H:\\Noteworthy Software\\NoteWorthy Composer 2\\NWC2.exe\n');
+fprintf(WRITE_ID,'WinWait, Thank-you For Trying NoteWorthy Composer, \n');
+fprintf(WRITE_ID,'IfWinNotActive, Thank-you For Trying NoteWorthy Composer, , WinActivate, Thank-you For Trying NoteWorthy Composer, \n');
+fprintf(WRITE_ID,'WinWaitActive, Thank-you For Trying NoteWorthy Composer, \n');
+fprintf(WRITE_ID,'Send, {TAB}{TAB}{ENTER}{ENTER}\n');
+fprintf(WRITE_ID,'WinWait, NoteWorthy Composer 2 (Evaluation), \n');
+fprintf(WRITE_ID,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation), , WinActivate, NoteWorthy Composer 2 (Evaluation), \n');
+fprintf(WRITE_ID,'WinWaitActive, NoteWorthy Composer 2 (Evaluation), \n');
+fprintf(WRITE_ID,'Send, {CTRLDOWN}n{CTRLUP}\n');
+fprintf(WRITE_ID,'WinWait, Song Templates, \n');
+fprintf(WRITE_ID,'IfWinNotActive, Song Templates, , WinActivate, Song Templates, \n');
+fprintf(WRITE_ID,'WinWaitActive, Song Templates, \n');
+fprintf(WRITE_ID,'Send, {ENTER}\n');
+fprintf(WRITE_ID,'WinWait, File Info, \n');
+fprintf(WRITE_ID,'IfWinNotActive, File Info, , WinActivate, File Info, \n');
+fprintf(WRITE_ID,'WinWaitActive, File Info, \n');
+fprintf(WRITE_ID,'Send, title goes here{ENTER}\n');
+fprintf(WRITE_ID,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+fprintf(WRITE_ID,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+fprintf(WRITE_ID,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+fprintf(WRITE_ID,'Send, d\n');
+fprintf(WRITE_ID,'WinWait, Notation Properties, \n');
+fprintf(WRITE_ID,'IfWinNotActive, Notation Properties, , WinActivate, Notation Properties, \n');
+fprintf(WRITE_ID,'WinWaitActive, Notation Properties, \n');
+fprintf(WRITE_ID,'Send, {TAB}o{ENTER}\n');
+fprintf(WRITE_ID,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+fprintf(WRITE_ID,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+fprintf(WRITE_ID,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+fprintf(WRITE_ID,'Send, {BACKSPACE}\n');

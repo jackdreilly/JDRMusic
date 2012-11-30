@@ -1,0 +1,253 @@
+function ahk_header(hstruct,fid)
+global STAFF_COUNTER;
+
+tempo_string = get_tempo_string();
+clef_string = get_clef_string();
+key_string = get_key_string();
+time_string = get_time_string();
+dynamics_string = get_dynamics();
+instrument_string = get_instrument();
+
+print_to_file();
+
+
+    function print_to_file()
+        if STAFF_COUNTER > 1
+            fprintf(fid,'Send, {CTRLDOWN}a{CTRLUP}\n');
+        end
+        fprintf(fid,'Send, {UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}\n');
+        fprintf(fid,'Send, t\n');
+        fprintf(fid,'WinWait, Notation Properties, \n');
+        fprintf(fid,'IfWinNotActive, Notation Properties, , WinActivate, Notation Properties, \n');
+        fprintf(fid,'WinWaitActive, Notation Properties, \n');
+        fprintf(fid,'Send, %s\n',tempo_string);
+        fprintf(fid,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'Send, {DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}c\n');
+        fprintf(fid,'WinWait, Notation Properties, \n');
+        fprintf(fid,'IfWinNotActive, Notation Properties, , WinActivate, Notation Properties, \n');
+        fprintf(fid,'WinWaitActive, Notation Properties, \n');
+        fprintf(fid,'Send, %s\n',clef_string);
+        fprintf(fid,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>],\n');
+        fprintf(fid,'Send, k\n');
+        fprintf(fid,'WinWait, Notation Properties, \n');
+        fprintf(fid,'IfWinNotActive, Notation Properties, , WinActivate, Notation Properties, \n');
+        fprintf(fid,'WinWaitActive, Notation Properties, \n');
+        fprintf(fid,'Send, %s\n',key_string);
+        fprintf(fid,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'Send, g\n');
+        fprintf(fid,'WinWait, Notation Properties, \n');
+        fprintf(fid,'IfWinNotActive, Notation Properties, , WinActivate, Notation Properties, \n');
+        fprintf(fid,'WinWaitActive, Notation Properties, \n');
+        fprintf(fid,'Send, %s\n',time_string);
+        fprintf(fid,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'Send, {DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}g\n');
+        fprintf(fid,'WinWait, Notation Properties, \n');
+        fprintf(fid,'IfWinNotActive, Notation Properties, , WinActivate, Notation Properties, \n');
+        fprintf(fid,'WinWaitActive, Notation Properties, \n');
+        fprintf(fid,'Send, %s\n',dynamics_string);
+        fprintf(fid,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'Send, {UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}\n');
+        fprintf(fid,'Send, {F2}\n');
+        fprintf(fid,'WinWait, Notation Properties, \n');
+        fprintf(fid,'IfWinNotActive, Notation Properties, , WinActivate, Notation Properties, \n');
+        fprintf(fid,'WinWaitActive, Notation Properties, \n');
+        fprintf(fid,'Send, %s\n',instrument_string);
+        fprintf(fid,'WinWait, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'IfWinNotActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], , WinActivate, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'WinWaitActive, NoteWorthy Composer 2 (Evaluation) - [<SONG1>], \n');
+        fprintf(fid,'Send, {DOWN}\n');
+    end
+
+
+
+
+    function tempo_string = get_tempo_string()
+        tempo_string = [ '{TAB}' hstruct.Tempo '{ENTER}'];
+    end
+    function clef_string = get_clef_string()
+        clef_string = '{DOWN}{UP}{UP}{UP}{UP}{TAB}{DOWN}{UP}{UP}{UP}{TAB}{TAB}{TAB}{TAB}';
+        switch hstruct.Clef.Type
+            case 'Bass'
+                clef_string = [clef_string '{DOWN}{DOWN}{ENTER}'];
+            case 'Treble'
+        end
+        switch hstruct.Clef.Shift
+            case 1
+                shift_string = '{TAB}{DOWN}{DOWN}{ENTER}';
+            case -1
+                shift_string = '{TAB}{DOWN}{DOWN}{DOWN}{ENTER}';
+            case 0
+                shift_string = '';
+        end
+        clef_string = [clef_string shift_string '{ENTER}'];
+    end
+    function time_string = get_time_string()
+        time_string = '4{TAB}{UP}{UP}{UP}{UP}{UP}{DOWN}{DOWN}{TAB}{TAB}{TAB}{TAB}{TAB}';
+        time_string = [time_string hstruct.Time.NumberOfBeats '{TAB}{DOWN}'];
+        switch hstruct.Time.BeatValue
+            case '1'
+                subs = '{UP}{UP}';
+            case '2'
+                subs = '{UP}';
+            case '4'
+                subs = '';
+            case '8'
+                subs = '{DOWN}';
+            case '16'
+                subs = '{DOWN}{DOWN}';
+            case '32'
+                subs = '{DOWN}{DOWN}';
+        end
+        
+        time_string = [time_string subs '{ENTER}{ENTER}'];
+    end
+
+    function key_string = get_key_string()
+        nat_mat = [0 0 1 0 0 1 1;
+            0 1 1 0 1 1 1;
+            0 0 0 0 0 0 0;
+            0 0 1 0 0 0 1;
+            0 0 1 1 0 1 1;
+            0 0 0 -1 0 0 0;
+            0 0 0 0 0 0 1];
+        flat_mat = [1 1 0 1 1 0 0;
+            0 1 0 0 1 0 0;
+            1 1 1 1 1 1 1;
+            1 1 0 1 1 0 1;
+            1 1 0 0 1 0 0;
+            1 1 1 1 1 1 1;
+            1 1 1 1 1 0 1].*-1;
+        sharp_mat = zeros(7);
+        sharp_mat(3,:) = ones(1,7);
+        sharp_mat(6,:) = [1 0 1 1 1 1 1];
+        
+        mode_mat = [0 0 0 0 0 0 0;
+            0 0 -1 0 0 0 -1;
+            0 -1 -1 0 0 -1 -1;
+            0 0 0 1 0 0 0;
+            0 0 0 0 0 0 -1;
+            0 0 -1 0 0 -1 -1;
+            0 -1 -1 0 -1 -1 -1];
+        
+        switch hstruct.Key.Accidental
+            case 'Sharp'
+                m = sharp_mat;
+            case 'Flat'
+                m = flat_mat;
+            case 'Natural'
+                m = nat_mat;
+        end
+        
+        switch hstruct.Key.Letter
+            case 'A'
+                n = 1;
+            case 'B'
+                n = 2;
+            case 'C'
+                n = 3;
+            case 'D'
+                n = 4;
+            case 'E'
+                n = 5;
+            case 'F'
+                n = 6;
+            case 'G'
+                n = 7;
+        end
+        
+        switch hstruct.Key.Mode
+            case 'Ionian'
+                p = 1;
+            case 'Dorian'
+                p = 2;
+            case 'Phrygian'
+                p = 3;
+            case 'Lydian'
+                p = 4;
+            case 'Mixolydian'
+                p = 5;
+            case 'Aeolian'
+                p = 6;
+            case 'Locrian'
+                p = 7;
+        end
+        
+        shiftmat = snake(mode_mat(p,:),n - 1);
+        FS_mat = m(n,:) + shiftmat;
+        key_string = '{DOWN}{UP}';
+        
+        for i = 1:7
+            switch FS_mat(i)
+                case 0
+                    subs = '';
+                case -1
+                    subs = '{UP}';
+                case 1
+                    subs = '{UP}{UP}';
+            end
+            key_string = [key_string '{TAB}' subs];
+        end
+        key_string = [key_string '{ENTER}'];
+    end
+
+
+    function dynamics_string = get_dynamics()
+        dynamics_string = '{DOWN}{UP}{UP}{UP}{UP}{UP}{UP}{UP}';
+        switch hstruct.Dynamics
+            case 'ppp'
+                num = '';
+            case 'pp'
+                num = '{DOWN}';
+            case 'p'
+                num = '{DOWN}{DOWN}';
+            case 'mp'
+                num = '{DOWN}{DOWN}{DOWN}';
+            case 'mf'
+                num = '{DOWN}{DOWN}{DOWN}{DOWN}';
+            case 'f'
+                num = '{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}';
+            case 'ff'
+                num = '{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}';
+            case 'fff'
+                num = '{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}';
+        end
+        dynamics_string = [dynamics_string num '{ENTER}{ENTER}'];
+    end
+    function instrument_string = get_instrument()
+        instrument_string = '{TAB}{ENTER}{HOME}{LEFT}{LEFT}{RIGHT}';
+        end_string = '{ENTER}{TAB}{ENTER}';
+        switch hstruct.Instrument
+            case 'piano'
+                i_s = 'a';
+            case 'organ'
+                i_s = 'p';
+            case 'acoustic guitar'
+                i_s = 'aaa';
+            case 'electric guitar'
+                i_s = 'ee';
+            case 'bass'
+                i_s = 'eeeeee';
+            case 'pizzicato strings'
+                i_s = 'pp';
+            case 'ensemble'
+                i_s = 'sssss';
+            case 'brass'
+                i_s = 'bb';
+            case 'sax'
+                i_s = 'tttttttt';
+        end
+        instrument_string = [instrument_string i_s end_string];
+    end
+
+end
+
